@@ -77,11 +77,8 @@ class CategoryFilterChips extends StatelessWidget {
     );
   }
 
-  // সহজ ক্যাটেগরি নাম ফরম্যাটিং
   String _formatCategoryName(String category) {
     if (category.isEmpty) return '';
-
-    // '-' দিয়ে আলাদা করা থাকলে ঠিক করে দেখাই (smartphones-sale → Smartphones Sale)
     if (category.contains('-')) {
       return category
           .split('-')
@@ -92,7 +89,6 @@ class CategoryFilterChips extends StatelessWidget {
           .join(' ');
     }
 
-    // সাধারণ ক্যাটেগরি নাম (smartphones → Smartphones)
     return category[0].toUpperCase() + category.substring(1);
   }
 }

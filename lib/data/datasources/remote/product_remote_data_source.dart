@@ -17,13 +17,14 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductListModel> getProducts({int limit = 100}) async {
-    final result = await catchAndReturnFuture<ProductListModel>(() async {
-      final response = await _httpClient.get(
-        'https://dummyjson.com/products',
-        queryParameters: {'limit': limit.toString()},
-      );
-      return ProductListModel.fromJson(response);
-    });
+    final ProductListModel? result =
+        await catchAndReturnFuture<ProductListModel>(() async {
+          final Map<String, dynamic> response = await _httpClient.get(
+            'https://dummyjson.com/products',
+            queryParameters: {'limit': limit.toString()},
+          );
+          return ProductListModel.fromJson(response);
+        });
 
     if (result == null) {
       throw Exception('Failed to fetch products');
@@ -34,13 +35,14 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductListModel> searchProducts(String query) async {
-    final result = await catchAndReturnFuture<ProductListModel>(() async {
-      final response = await _httpClient.get(
-        'https://dummyjson.com/products/search',
-        queryParameters: {'q': query},
-      );
-      return ProductListModel.fromJson(response);
-    });
+    final ProductListModel? result =
+        await catchAndReturnFuture<ProductListModel>(() async {
+          final Map<String, dynamic> response = await _httpClient.get(
+            'https://dummyjson.com/products/search',
+            queryParameters: {'q': query},
+          );
+          return ProductListModel.fromJson(response);
+        });
 
     if (result == null) {
       throw Exception('Failed to search products');
@@ -51,17 +53,20 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<String>> getCategories() async {
-    final result = await catchAndReturnFuture<List<String>>(() async {
-      final response = await _httpClient.get(
-        'https://dummyjson.com/products/categories',
-      );
-      if (response.containsKey('data') && response['data'] is List<dynamic>) {
-        final List<dynamic> categoriesList = response['data'] as List<dynamic>;
-        return categoriesList.map((e) => e.toString()).toList();
-      } else {
-        throw Exception('Invalid categories response format');
-      }
-    });
+    final List<String>? result = await catchAndReturnFuture<List<String>>(
+      () async {
+        final Map<String, dynamic> response = await _httpClient.get(
+          'https://dummyjson.com/products/categories',
+        );
+        if (response.containsKey('data') && response['data'] is List<dynamic>) {
+          final List<dynamic> categoriesList =
+              response['data'] as List<dynamic>;
+          return categoriesList.map((e) => e.toString()).toList();
+        } else {
+          throw Exception('Invalid categories response format');
+        }
+      },
+    );
 
     if (result == null) {
       throw Exception('Failed to fetch categories');
@@ -72,19 +77,20 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductListModel> getProductsByCategory(String categoryName) async {
-    final result = await catchAndReturnFuture<ProductListModel>(() async {
-      final String encodedCategoryName = Uri.encodeComponent(categoryName);
+    final ProductListModel? result =
+        await catchAndReturnFuture<ProductListModel>(() async {
+          final String encodedCategoryName = Uri.encodeComponent(categoryName);
 
-      final response = await _httpClient.get(
-        'https://dummyjson.com/products/category/$encodedCategoryName',
-      );
+          final Map<String, dynamic> response = await _httpClient.get(
+            'https://dummyjson.com/products/category/$encodedCategoryName',
+          );
 
-      if (!response.containsKey('products')) {
-        throw Exception('Invalid response format: products key missing');
-      }
+          if (!response.containsKey('products')) {
+            throw Exception('Invalid response format: products key missing');
+          }
 
-      return ProductListModel.fromJson(response);
-    });
+          return ProductListModel.fromJson(response);
+        });
 
     if (result == null) {
       throw Exception('Failed to fetch products by category');
@@ -95,12 +101,14 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductModel> getProductDetails(int id) async {
-    final result = await catchAndReturnFuture<ProductModel>(() async {
-      final response = await _httpClient.get(
-        'https://dummyjson.com/products/$id',
-      );
-      return ProductModel.fromJson(response);
-    });
+    final ProductModel? result = await catchAndReturnFuture<ProductModel>(
+      () async {
+        final Map<String, dynamic> response = await _httpClient.get(
+          'https://dummyjson.com/products/$id',
+        );
+        return ProductModel.fromJson(response);
+      },
+    );
 
     if (result == null) {
       throw Exception('Failed to fetch product details');
