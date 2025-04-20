@@ -1,3 +1,4 @@
+import 'package:initial_project/core/utility/trial_utility.dart';
 import 'package:initial_project/data/models/product_model.dart';
 import 'package:initial_project/data/services/http_client_impl.dart';
 
@@ -16,33 +17,41 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<ProductListModel> getProducts({int limit = 100}) async {
-    try {
+    final result = await catchAndReturnFuture<ProductListModel>(() async {
       final response = await _httpClient.get(
         'https://dummyjson.com/products',
         queryParameters: {'limit': limit.toString()},
       );
       return ProductListModel.fromJson(response);
-    } catch (error) {
-      throw Exception('Failed to fetch products: $error');
+    });
+
+    if (result == null) {
+      throw Exception('Failed to fetch products');
     }
+
+    return result;
   }
 
   @override
   Future<ProductListModel> searchProducts(String query) async {
-    try {
+    final result = await catchAndReturnFuture<ProductListModel>(() async {
       final response = await _httpClient.get(
         'https://dummyjson.com/products/search',
         queryParameters: {'q': query},
       );
       return ProductListModel.fromJson(response);
-    } catch (error) {
-      throw Exception('Failed to search products: $error');
+    });
+
+    if (result == null) {
+      throw Exception('Failed to search products');
     }
+
+    return result;
   }
 
   @override
   Future<List<String>> getCategories() async {
-    try {
+    final result = await catchAndReturnFuture<List<String>>(() async {
       final response = await _httpClient.get(
         'https://dummyjson.com/products/categories',
       );
@@ -52,14 +61,18 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       } else {
         throw Exception('Invalid categories response format');
       }
-    } catch (error) {
-      throw Exception('Failed to fetch categories: $error');
+    });
+
+    if (result == null) {
+      throw Exception('Failed to fetch categories');
     }
+
+    return result;
   }
 
   @override
   Future<ProductListModel> getProductsByCategory(String categoryName) async {
-    try {
+    final result = await catchAndReturnFuture<ProductListModel>(() async {
       final String encodedCategoryName = Uri.encodeComponent(categoryName);
 
       final response = await _httpClient.get(
@@ -71,20 +84,28 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       }
 
       return ProductListModel.fromJson(response);
-    } catch (error) {
-      throw Exception('Failed to fetch products by category: $error');
+    });
+
+    if (result == null) {
+      throw Exception('Failed to fetch products by category');
     }
+
+    return result;
   }
 
   @override
   Future<ProductModel> getProductDetails(int id) async {
-    try {
+    final result = await catchAndReturnFuture<ProductModel>(() async {
       final response = await _httpClient.get(
         'https://dummyjson.com/products/$id',
       );
       return ProductModel.fromJson(response);
-    } catch (error) {
-      throw Exception('Failed to fetch product details: $error');
+    });
+
+    if (result == null) {
+      throw Exception('Failed to fetch product details');
     }
+
+    return result;
   }
 }

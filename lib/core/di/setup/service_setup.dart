@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:initial_project/core/di/setup/setup_module.dart';
-import 'package:initial_project/data/datasources/remote/product_remote_data_source.dart';
 import 'package:initial_project/data/services/error_message_handler_impl.dart';
 import 'package:initial_project/data/services/http_client_impl.dart';
 import 'package:initial_project/data/services/local_cache_service.dart';
