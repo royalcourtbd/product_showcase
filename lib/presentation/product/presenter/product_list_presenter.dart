@@ -54,7 +54,6 @@ class ProductListPresenter extends BasePresenter<ProductListUiState> {
     await parseDataFromEitherWithUserMessage(
       task: () => _getCategoriesUseCase.execute(),
       onDataLoaded: (categories) {
-        log("Categories loaded: $categories");
         uiState.value = currentUiState.copyWith(categories: categories);
       },
     );

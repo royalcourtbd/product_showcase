@@ -1,5 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:initial_project/core/utility/logger_utility.dart';
+import 'package:initial_project/core/utility/trial_utility.dart';
 import 'package:initial_project/data/datasources/remote/product_remote_data_source.dart';
 import 'package:initial_project/domain/entities/product_entity.dart';
 import 'package:initial_project/domain/repositories/product_repository.dart';
@@ -18,67 +18,73 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Either<String, ProductListEntity>> getProducts({
     int limit = 100,
   }) async {
-    try {
-      final productList = await _productRemoteDataSource.getProducts(
-        limit: limit,
-      );
-      return right(productList);
-    } catch (error) {
-      logError('Error getting products: $error');
-      final errorMessage = _errorMessageHandler.generateErrorMessage(error);
-      return left(errorMessage);
-    }
+    return await catchAndReturnFuture<Either<String, ProductListEntity>>(
+          () async {
+            final productList = await _productRemoteDataSource.getProducts(
+              limit: limit,
+            );
+            return right(productList);
+          },
+        ) ??
+        left(
+          _errorMessageHandler.generateErrorMessage("Error getting products"),
+        );
   }
 
   @override
   Future<Either<String, ProductListEntity>> searchProducts(String query) async {
-    try {
-      final productList = await _productRemoteDataSource.searchProducts(query);
-      return right(productList);
-    } catch (error) {
-      logError('Error searching products: $error');
-      final errorMessage = _errorMessageHandler.generateErrorMessage(error);
-      return left(errorMessage);
-    }
+    return await catchAndReturnFuture<Either<String, ProductListEntity>>(
+          () async {
+            final productList = await _productRemoteDataSource.searchProducts(
+              query,
+            );
+            return right(productList);
+          },
+        ) ??
+        left(
+          _errorMessageHandler.generateErrorMessage("Error searching products"),
+        );
   }
 
   @override
   Future<Either<String, List<String>>> getCategories() async {
-    try {
-      final categories = await _productRemoteDataSource.getCategories();
-      return right(categories);
-    } catch (error) {
-      logError('Error getting categories: $error');
-      final errorMessage = _errorMessageHandler.generateErrorMessage(error);
-      return left(errorMessage);
-    }
+    return await catchAndReturnFuture<Either<String, List<String>>>(() async {
+          final categories = await _productRemoteDataSource.getCategories();
+          return right(categories);
+        }) ??
+        left(
+          _errorMessageHandler.generateErrorMessage("Error getting categories"),
+        );
   }
 
   @override
   Future<Either<String, ProductListEntity>> getProductsByCategory(
     String categoryName,
   ) async {
-    try {
-      final productList = await _productRemoteDataSource.getProductsByCategory(
-        categoryName,
-      );
-      return right(productList);
-    } catch (error) {
-      logError('Error getting products by category: $error');
-      final errorMessage = _errorMessageHandler.generateErrorMessage(error);
-      return left(errorMessage);
-    }
+    return await catchAndReturnFuture<Either<String, ProductListEntity>>(
+          () async {
+            final productList = await _productRemoteDataSource
+                .getProductsByCategory(categoryName);
+            return right(productList);
+          },
+        ) ??
+        left(
+          _errorMessageHandler.generateErrorMessage(
+            "Error getting products by category",
+          ),
+        );
   }
 
   @override
   Future<Either<String, ProductEntity>> getProductDetails(int id) async {
-    try {
-      final product = await _productRemoteDataSource.getProductDetails(id);
-      return right(product);
-    } catch (error) {
-      logError('Error getting product details: $error');
-      final errorMessage = _errorMessageHandler.generateErrorMessage(error);
-      return left(errorMessage);
-    }
+    return await catchAndReturnFuture<Either<String, ProductEntity>>(() async {
+          final product = await _productRemoteDataSource.getProductDetails(id);
+          return right(product);
+        }) ??
+        left(
+          _errorMessageHandler.generateErrorMessage(
+            "Error getting product details",
+          ),
+        );
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:initial_project/core/utility/logger_utility.dart';
 import 'package:initial_project/core/utility/trial_utility.dart';
@@ -58,21 +57,16 @@ class HttpClientImpl implements HttpClient {
       if (response.body.isEmpty) return {};
 
       try {
-        // রেসপন্স বডি পার্স করি
         final dynamic decodedResponse = json.decode(response.body);
 
-        // ম্যাপ হলে সরাসরি রিটার্ন করি
         if (decodedResponse is Map<String, dynamic>) {
           return decodedResponse;
         }
 
-        // অ্যারে হলে data key-তে র‍্যাপ করি
         if (decodedResponse is List) {
-          log("Response is a list: $decodedResponse");
           return {'data': decodedResponse};
         }
 
-        // অন্য ডাটা টাইপ হলে সতর্ক করি
         logErrorStatic(
           'Unexpected response format: ${response.body}',
           'HttpClientImpl',
