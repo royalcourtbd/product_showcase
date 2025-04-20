@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:initial_project/core/di/setup/setup_module.dart';
-import 'package:initial_project/data/services/backend_as_a_service.dart';
+import 'package:initial_project/data/datasources/remote/product_remote_data_source.dart';
 import 'package:initial_project/data/services/error_message_handler_impl.dart';
+import 'package:initial_project/data/services/http_client_impl.dart';
 import 'package:initial_project/data/services/local_cache_service.dart';
 import 'package:initial_project/data/services/notification/notification_service_impl.dart';
 import 'package:initial_project/domain/service/error_message_handler.dart';
@@ -17,9 +18,9 @@ class ServiceSetup implements SetupModule {
     _serviceLocator
       ..registerLazySingleton<ErrorMessageHandler>(ErrorMessageHandlerImpl.new)
       ..registerLazySingleton<NotificationService>(NotificationServiceImpl.new)
-      ..registerLazySingleton<BackendAsAService>(BackendAsAService.new)
       ..registerLazySingleton<TimeService>(TimeService.new)
-      ..registerLazySingleton<LocalCacheService>(LocalCacheService.new);
+      ..registerLazySingleton<LocalCacheService>(LocalCacheService.new)
+      ..registerLazySingleton<HttpClient>(HttpClientImpl.new);
 
     await LocalCacheService.setUp();
   }

@@ -4,6 +4,8 @@ import 'package:initial_project/core/di/service_locator.dart';
 import 'package:initial_project/core/di/setup/setup_module.dart';
 import 'package:initial_project/presentation/home/presenter/home_presenter.dart';
 import 'package:initial_project/presentation/main/presenter/main_presenter.dart';
+import 'package:initial_project/presentation/product/presenter/product_details_presenter.dart';
+import 'package:initial_project/presentation/product/presenter/product_list_presenter.dart';
 
 class PresenterSetup implements SetupModule {
   final GetIt _serviceLocator;
@@ -13,6 +15,14 @@ class PresenterSetup implements SetupModule {
   Future<void> setup() async {
     _serviceLocator
       ..registerFactory(() => loadPresenter(MainPresenter(locate())))
-      ..registerLazySingleton(() => loadPresenter(HomePresenter()));
+      ..registerLazySingleton(() => loadPresenter(HomePresenter()))
+      ..registerLazySingleton(
+        () => loadPresenter(
+          ProductListPresenter(locate(), locate(), locate(), locate()),
+        ),
+      )
+      ..registerLazySingleton(
+        () => loadPresenter(ProductDetailPresenter(locate())),
+      );
   }
 }

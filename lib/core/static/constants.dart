@@ -28,11 +28,11 @@ const String appStoreUrl =
 const String websiteUrl = "https://oratiq.com";
 
 //==============================================//
-const String reportEmailAddress = 'report.irdfoundation@gmail.com';
-const String donationUrl = 'https://irdfoundation.com/sadaqa-jaria.html';
-const String messengerUrl = "https://m.me/ihadis.official";
-const String twitterUrl = "https://twitter.com/irdofficial";
-const String facebookGroupUrl = "https://www.facebook.com/groups/irdofficial";
-const String facebookPageUrl = "https://www.facebook.com/com.oratiq/";
+const String reportEmailAddress = '';
+const String donationUrl = '';
+const String messengerUrl = "";
+const String twitterUrl = "";
+const String facebookGroupUrl = "";
+const String facebookPageUrl = "";
 
 const Duration defaultPageTransitionDuration = Duration(milliseconds: 370);

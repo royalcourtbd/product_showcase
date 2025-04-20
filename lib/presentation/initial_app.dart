@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:initial_project/core/config/app_screen.dart';
 import 'package:initial_project/core/config/themes.dart';
-import 'package:initial_project/presentation/home/ui/home_page.dart';
+import 'package:initial_project/presentation/product/ui/product_list_page.dart.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -34,7 +34,7 @@ class InitialApp extends StatelessWidget {
           theme: AappTheme.lightTheme,
           title: 'Initial Project',
           // home: isFirstRun ? OnboardingPage() : MainPage(),
-          home: HomePage(),
+          home: ProductListPage(),
         );
       },
     );

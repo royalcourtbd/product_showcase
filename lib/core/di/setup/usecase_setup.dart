@@ -6,11 +6,16 @@ import 'package:initial_project/core/di/setup/setup_module.dart';
 import 'package:initial_project/domain/usecases/check_notification_permission_usecase.dart';
 import 'package:initial_project/domain/usecases/determine_first_run_use_case.dart';
 import 'package:initial_project/domain/usecases/get_bank_payments_usecase.dart';
+import 'package:initial_project/domain/usecases/get_categories_usecase.dart';
 import 'package:initial_project/domain/usecases/get_device_info_usecase.dart';
 import 'package:initial_project/domain/usecases/get_mobile_payments_usecase.dart';
+import 'package:initial_project/domain/usecases/get_product_details_usecase.dart';
+import 'package:initial_project/domain/usecases/get_product_usecase.dart';
+import 'package:initial_project/domain/usecases/get_products_by_category_usecase.dart';
 import 'package:initial_project/domain/usecases/register_device_usecase.dart';
 import 'package:initial_project/domain/usecases/request_notification_permission_usecase.dart';
 import 'package:initial_project/domain/usecases/save_first_time_use_case.dart';
+import 'package:initial_project/domain/usecases/search_product_usecase.dart';
 
 class UsecaseSetup implements SetupModule {
   final GetIt _serviceLocator;
@@ -35,6 +40,15 @@ class UsecaseSetup implements SetupModule {
       )
       ..registerLazySingleton(
         () => RequestNotificationPermissionUsecase(locate(), locate()),
-      );
+      )
+      ..registerLazySingleton(() => GetProductsUseCase(locate(), locate()))
+      ..registerLazySingleton(
+        () => GetProductsByCategoryUseCase(locate(), locate()),
+      )
+      ..registerLazySingleton(() => GetCategoriesUseCase(locate(), locate()))
+      ..registerLazySingleton(
+        () => GetProductDetailsUseCase(locate(), locate()),
+      )
+      ..registerLazySingleton(() => SearchProductsUseCase(locate(), locate()));
   }
 }
