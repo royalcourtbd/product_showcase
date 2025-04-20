@@ -6,27 +6,18 @@ import 'package:initial_project/core/external_libs/presentable_widget_builder.da
 import 'package:initial_project/core/static/ui_const.dart';
 import 'package:initial_project/core/utility/ui_helper.dart';
 import 'package:initial_project/domain/entities/product_entity.dart';
+import 'package:initial_project/presentation/common/loading_indicator.dart';
 import 'package:initial_project/presentation/product/presenter/product_list_presenter.dart';
+import 'package:initial_project/presentation/product/presenter/product_list_ui_state.dart.dart';
 import 'package:initial_project/presentation/product/ui/product_detail_page.dart';
 import 'package:initial_project/presentation/product/widgets/category_filter_chips.dart';
 import 'package:initial_project/presentation/product/widgets/product_card.dart';
 import 'package:initial_project/presentation/product/widgets/product_search_bar.dart';
 
-class ProductListPage extends StatefulWidget {
-  const ProductListPage({super.key});
+class ProductListPage extends StatelessWidget {
+  ProductListPage({super.key});
 
-  @override
-  State<ProductListPage> createState() => _ProductListPageState();
-}
-
-class _ProductListPageState extends State<ProductListPage> {
   late final ProductListPresenter _presenter = locate<ProductListPresenter>();
-
-  @override
-  void initState() {
-    super.initState();
-    UiHelper.onMessage(_presenter.uiState, context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +31,11 @@ class _ProductListPageState extends State<ProductListPage> {
       ),
       body: PresentableWidgetBuilder(
         presenter: _presenter,
+        onInit: () {
+          UiHelper.onMessage(_presenter.uiState, context);
+        },
         builder: () {
-          final state = _presenter.currentUiState;
+          final ProductListUiState state = _presenter.currentUiState;
 
           return Column(
             children: [
@@ -68,7 +62,9 @@ class _ProductListPageState extends State<ProductListPage> {
               Expanded(
                 child:
                     state.isLoading
-                        ? const Center(child: CircularProgressIndicator())
+                        ? Center(
+                          child: LoadingIndicator(theme: Theme.of(context)),
+                        )
                         : state.products.isEmpty
                         ? Center(
                           child: Text(

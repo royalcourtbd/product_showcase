@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:initial_project/core/config/app_screen.dart';
 import 'package:initial_project/core/utility/utility.dart';
@@ -56,11 +57,11 @@ class _ImageCarouselState extends State<ImageCarousel> {
                 onTap: () => _showFullScreenImage(context, uniqueImages, index),
                 child: Hero(
                   tag: 'product_image_${uniqueImages[index]}',
-                  child: Image.network(
-                    uniqueImages[index],
+                  child: CachedNetworkImage(
+                    imageUrl: uniqueImages[index],
                     fit: BoxFit.contain,
-                    errorBuilder:
-                        (_, __, ___) => Container(
+                    errorWidget:
+                        (context, error, stackTrace) => Container(
                           color: context.color.blackColor100,
                           child: Icon(
                             Icons.image_not_supported,

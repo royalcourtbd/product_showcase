@@ -10,25 +10,13 @@ import 'package:initial_project/presentation/product/presenter/product_details_p
 import 'package:initial_project/presentation/product/widgets/image_carousel.dart';
 import 'package:initial_project/presentation/product/widgets/rating_stars.dart';
 
-class ProductDetailPage extends StatefulWidget {
+class ProductDetailPage extends StatelessWidget {
   final int productId;
 
-  const ProductDetailPage({super.key, required this.productId});
+  ProductDetailPage({super.key, required this.productId});
 
-  @override
-  State<ProductDetailPage> createState() => _ProductDetailPageState();
-}
-
-class _ProductDetailPageState extends State<ProductDetailPage> {
   late final ProductDetailPresenter _presenter =
       locate<ProductDetailPresenter>();
-
-  @override
-  void initState() {
-    super.initState();
-    UiHelper.onMessage(_presenter.uiState, context);
-    _presenter.loadProductDetails(widget.productId);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +33,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ),
       body: PresentableWidgetBuilder(
         presenter: _presenter,
+        onInit: () {
+          UiHelper.onMessage(_presenter.uiState, context);
+          _presenter.loadProductDetails(productId);
+        },
         builder: () {
           final state = _presenter.currentUiState;
 
@@ -199,6 +191,24 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   Widget _buildDetailRow(String label, String value, ThemeData theme) {
+    return DetailRowWidget(label: label, value: value, theme: theme);
+  }
+}
+
+class DetailRowWidget extends StatelessWidget {
+  const DetailRowWidget({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.theme,
+  });
+
+  final String label;
+  final String value;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: fourPx),
       child: Row(
