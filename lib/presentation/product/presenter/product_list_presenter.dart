@@ -60,11 +60,9 @@ class ProductListPresenter extends BasePresenter<ProductListUiState> {
   }
 
   Future<void> selectCategory(String? categoryName) async {
-    // লগ করি যে কোন ক্যাটেগরি সিলেক্ট করা হচ্ছে
     log("Selecting category: $categoryName");
 
     if (categoryName == currentUiState.selectedCategory) {
-      // যদি একই ক্যাটেগরি আবার ক্লিক করা হয়, তাহলে ডিসিলেক্ট করি
       log("Deselecting category: $categoryName");
       uiState.value = currentUiState.copyWith(
         selectedCategory: null,
@@ -83,7 +81,6 @@ class ProductListPresenter extends BasePresenter<ProductListUiState> {
     if (categoryName == null) {
       await loadProducts();
     } else {
-      // ক্যাটেগরি অনুযায়ী প্রোডাক্ট লোড করি
       await parseDataFromEitherWithUserMessage(
         task: () => _getProductsByCategoryUseCase.execute(categoryName),
         onDataLoaded: (productList) {
@@ -94,7 +91,7 @@ class ProductListPresenter extends BasePresenter<ProductListUiState> {
             products: productList.products,
           );
         },
-        // এরর হলে খালি লিস্ট দেখাই
+
         valueOnError: const ProductListEntity(
           products: [],
           total: 0,
@@ -107,16 +104,20 @@ class ProductListPresenter extends BasePresenter<ProductListUiState> {
     uiState.value = currentUiState.copyWith(isLoading: false);
   }
 
+  Future<void> refreshData() async {
+    return executeTaskWithLoading(() async {
+      await Future.wait([loadProducts(), loadCategories()]);
+    });
+  }
+
   void setSearchQuery(String query) {
     uiState.value = currentUiState.copyWith(
       searchQuery: query,
       isSearching: query.isNotEmpty,
     );
 
-    // থ্রটল সার্চ টু অ্যাভয়েড টু ম্যানি API কলস
     Debounce.debounce('search_products', 0.5.inSeconds, () async {
       if (query.isEmpty) {
-        // যদি কোয়েরি খালি হয়, তাহলে ক্যাটেগরিতে বা সব প্রোডাক্টে ফিরে যাই
         if (currentUiState.selectedCategory != null) {
           await selectCategory(currentUiState.selectedCategory);
         } else {
@@ -131,11 +132,10 @@ class ProductListPresenter extends BasePresenter<ProductListUiState> {
           onDataLoaded: (productList) {
             uiState.value = currentUiState.copyWith(
               products: productList.products,
-              selectedCategory:
-                  null, // সার্চ করার সময় ক্যাটেগরি সিলেকশন ক্লিয়ার করি
+              selectedCategory: null,
             );
           },
-          // এরর হলে খালি লিস্ট দেখাই
+
           valueOnError: const ProductListEntity(
             products: [],
             total: 0,

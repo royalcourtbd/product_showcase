@@ -5,6 +5,7 @@ import 'package:initial_project/core/di/service_locator.dart';
 import 'package:initial_project/core/external_libs/presentable_widget_builder.dart';
 import 'package:initial_project/core/static/ui_const.dart';
 import 'package:initial_project/core/utility/ui_helper.dart';
+import 'package:initial_project/core/utility/utility.dart';
 import 'package:initial_project/domain/entities/product_entity.dart';
 import 'package:initial_project/presentation/common/loading_indicator.dart';
 import 'package:initial_project/presentation/product/presenter/product_list_presenter.dart';
@@ -58,37 +59,53 @@ class ProductListPage extends StatelessWidget {
                   ),
                 ),
 
-              // Product List
               Expanded(
                 child:
                     state.isLoading
                         ? Center(
                           child: LoadingIndicator(theme: Theme.of(context)),
                         )
-                        : state.products.isEmpty
-                        ? Center(
-                          child: Text(
-                            'No products found',
-                            style: theme.textTheme.titleMedium,
-                          ),
-                        )
-                        : GridView.builder(
-                          padding: padding15,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.7,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                              ),
-                          itemCount: state.products.length,
-                          itemBuilder: (context, index) {
-                            final product = state.products[index];
-                            return ProductCard(
-                              product: product,
-                              onTap: () => _navigateToProductDetail(product),
-                            );
-                          },
+                        : RefreshIndicator(
+                          onRefresh: _presenter.refreshData,
+                          color: context.color.primaryColor,
+                          child:
+                              state.products.isEmpty
+                                  ? ListView(
+                                    children: [
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                            3,
+                                        child: Center(
+                                          child: Text(
+                                            'No products found',
+                                            style: theme.textTheme.titleMedium,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                  : GridView.builder(
+                                    padding: padding15,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 0.7,
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 10,
+                                        ),
+                                    itemCount: state.products.length,
+                                    itemBuilder: (context, index) {
+                                      final product = state.products[index];
+                                      return ProductCard(
+                                        product: product,
+                                        onTap:
+                                            () => _navigateToProductDetail(
+                                              product,
+                                            ),
+                                      );
+                                    },
+                                  ),
                         ),
               ),
             ],
