@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:initial_project/core/config/app_screen.dart';
 import 'package:initial_project/core/static/ui_const.dart';
@@ -89,6 +91,8 @@ class CategoryFilterChips extends StatelessWidget {
           .join(' ');
     }
 
-    return category[0].toUpperCase() + category.substring(1);
+    String result = category[0].toUpperCase() + category.substring(1);
+    log(result);
+    return result;
   }
 }

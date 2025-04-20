@@ -6,6 +6,7 @@ import 'package:initial_project/core/external_libs/presentable_widget_builder.da
 import 'package:initial_project/core/static/ui_const.dart';
 import 'package:initial_project/core/utility/ui_helper.dart';
 import 'package:initial_project/core/utility/utility.dart';
+import 'package:initial_project/presentation/common/loading_indicator.dart';
 import 'package:initial_project/presentation/product/presenter/product_details_presenter.dart';
 import 'package:initial_project/presentation/product/widgets/image_carousel.dart';
 import 'package:initial_project/presentation/product/widgets/rating_stars.dart';
@@ -41,7 +42,7 @@ class ProductDetailPage extends StatelessWidget {
           final state = _presenter.currentUiState;
 
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: LoadingIndicator(theme: theme));
           }
 
           if (state.product == null) {

@@ -53,20 +53,19 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<String>> getCategories() async {
-    final List<String>? result = await catchAndReturnFuture<List<String>>(
-      () async {
-        final Map<String, dynamic> response = await _httpClient.get(
-          'https://dummyjson.com/products/categories',
-        );
-        if (response.containsKey('data') && response['data'] is List<dynamic>) {
-          final List<dynamic> categoriesList =
-              response['data'] as List<dynamic>;
-          return categoriesList.map((e) => e.toString()).toList();
-        } else {
-          throw Exception('Invalid categories response format');
-        }
-      },
-    );
+    final result = await catchAndReturnFuture<List<String>>(() async {
+      final response = await _httpClient.get(
+        'https://dummyjson.com/products/categories',
+      );
+      if (response.containsKey('data') && response['data'] is List<dynamic>) {
+        final List<dynamic> categoriesList = response['data'] as List<dynamic>;
+        return categoriesList
+            .map((e) => (e as Map)['slug'].toString())
+            .toList();
+      } else {
+        throw Exception('Invalid categories response format');
+      }
+    });
 
     if (result == null) {
       throw Exception('Failed to fetch categories');
