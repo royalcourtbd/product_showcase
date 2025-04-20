@@ -15,7 +15,6 @@ class SearchProductsUseCase extends BaseUseCase<ProductListEntity> {
   Future<Either<String, ProductListEntity>> execute(String query) async {
     return await mapResultToEither(() async {
       if (query.isEmpty) {
-        // If query is empty, return all products
         final result = await _productRepository.getProducts();
         return result.getRight().getOrElse(
           () => throw Exception('Failed to get products'),

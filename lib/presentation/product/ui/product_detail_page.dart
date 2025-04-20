@@ -60,7 +60,6 @@ class ProductDetailPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Image Carousel
                 ImageCarousel(images: [product.thumbnail, ...product.images]),
 
                 Padding(
@@ -68,7 +67,6 @@ class ProductDetailPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title and Category
                       Text(
                         product.title,
                         style: theme.textTheme.headlineSmall?.copyWith(
@@ -83,7 +81,6 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       gapH12,
 
-                      // Price and Rating
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -122,7 +119,6 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       gapH16,
 
-                      // Description
                       Text('Description', style: theme.textTheme.titleLarge),
                       gapH8,
                       Text(
@@ -131,7 +127,6 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       gapH16,
 
-                      // Product Details
                       Text(
                         'Product Details',
                         style: theme.textTheme.titleLarge,
@@ -162,7 +157,6 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       gapH22,
 
-                      // Call to Action
                       ElevatedButton(
                         onPressed: () {
                           showMessage(message: 'Added to cart!');

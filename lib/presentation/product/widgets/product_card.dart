@@ -34,7 +34,6 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
             SizedBox(
               height: 120,
               width: double.infinity,
@@ -47,19 +46,6 @@ class ProductCard extends StatelessWidget {
                       child: Icon(Icons.image_not_supported, size: thirtyPx),
                     ),
               ),
-              // child: Image.network(
-              //   product.thumbnail,
-              //   fit: BoxFit.cover,
-              //   errorBuilder:
-              //       (_, __, ___) => Container(
-              //         color: context.color.blackColor100,
-              //         child: Icon(
-              //           Icons.image_not_supported,
-              //           color: context.color.blackColor300,
-              //           size: thirtyPx,
-              //         ),
-              //       ),
-              // ),
             ),
 
             Padding(
@@ -67,7 +53,6 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Category
                   Text(
                     product.category,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -77,7 +62,6 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
 
-                  // Title
                   Text(
                     product.title,
 
@@ -89,11 +73,9 @@ class ProductCard extends StatelessWidget {
                   ),
                   gapH4,
 
-                  // Rating
                   RatingStars(rating: product.rating, small: true),
                   gapH4,
 
-                  // Price
                   Row(
                     children: [
                       Text(
@@ -125,7 +107,6 @@ class ProductCard extends StatelessWidget {
                     ],
                   ),
 
-                  // Stock
                   Text(
                     product.stock > 0
                         ? 'In Stock (${product.stock})'

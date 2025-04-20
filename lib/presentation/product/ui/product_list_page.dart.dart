@@ -40,7 +40,6 @@ class ProductListPage extends StatelessWidget {
 
           return Column(
             children: [
-              // Search Bar
               ProductSearchBar(
                 value: state.searchQuery,
                 onChanged: _presenter.setSearchQuery,
@@ -48,7 +47,6 @@ class ProductListPage extends StatelessWidget {
                 isSearching: state.isSearching,
               ),
 
-              // Category Filter
               if (state.categories.isNotEmpty && !state.isSearching)
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: tenPx),

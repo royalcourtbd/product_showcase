@@ -41,12 +41,10 @@ class _ImageCarouselState extends State<ImageCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    // Deduplicate images (sometimes the API returns duplicates)
     final List<String> uniqueImages = widget.images.toSet().toList();
 
     return Stack(
       children: [
-        // Main carousel
         SizedBox(
           height: 300,
           child: PageView.builder(
@@ -76,7 +74,6 @@ class _ImageCarouselState extends State<ImageCarousel> {
           ),
         ),
 
-        // Indicator dots
         if (uniqueImages.length > 1)
           Positioned(
             bottom: tenPx,
